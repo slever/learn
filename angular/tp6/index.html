@@ -1,0 +1,81 @@
+<!doctype html>
+<html ng-app="exampleApp">
+
+<head>
+    <meta charset="utf-8">
+    <title>tp</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/angular/angular.js"></script>
+
+
+    <script>
+        var myApp = angular.module("exampleApp", []);
+        myApp.controller('SimpleCtrl', function($scope,$q) {
+
+            function getTodo(id) {
+              var d= $q.defer();
+                setTimeout(function() {
+                  if(id==0){
+                    d.reject({message: 'erreur '+id});
+                  } else {
+                    d.resolve({
+                        'task': 'todo ' + id,
+                        'done': false
+                    });
+                  }
+                }, 1000);
+                // return {'task':'todo '+id,'done':false};
+                return d.promise;
+            }
+
+            // parallel
+            getTodo(1).then(function(todo){
+              console.log(todo);
+            }).catch(function(err){
+              console.error(err)
+            });
+
+            var t2 = getTodo(2).then(function(todo){
+              console.log(todo);
+            }).catch(function(err){
+              console.error(err)
+            });
+
+            var t3 = getTodo(3).then(function(todo){
+              console.log(todo);
+            }).catch(function(err){
+              console.error(err)
+            });
+
+            // chained
+            getTodo(1).then(function(todo){
+              console.log("chained:"+todo);
+              return getTodo(2);
+            }).then(function(todo2){
+              console.log("chained:"+todo2);
+              return getTodo(3);
+            }).then(function(todo3){
+              console.log("chained:"+todo3);
+            }).catch(function(err){
+              console.error(err);
+            });
+
+            var p1 = getTodo(1);
+            var p2 = getTodo(2);
+            var p3 = getTodo(3);
+            $q.all([p1,p2,p3]).then(function(arr){
+              console.dir(arr);
+            }).catch(function(err){
+              console.error(err);
+            });
+        });
+    </script>
+</head>
+
+<body ng-controller="SimpleCtrl">
+
+</body>
+
+</html>

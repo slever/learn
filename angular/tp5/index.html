@@ -1,0 +1,56 @@
+<!doctype html>
+<html ng-app="exampleApp">
+    <head>
+        <meta charset="utf-8">
+        <title>tp4</title>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+
+        <script src="node_modules/jquery/dist/jquery.js"></script>
+        <script src="node_modules/angular/angular.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('#iButton').click(function() {
+                  angular.element(ng).scope().$apply("incrementCounter()");
+                })
+            });
+        </script>
+        <script>
+            var myApp = angular.module("exampleApp", []);
+
+            myApp.controller("SimpleCtrl", function($scope,$interval) {
+                $scope.buttonEnabled = false;
+                $scope.count = 0;
+
+                $scope.incrementCounter = function() {
+                  $scope.count++;
+                }
+
+                $scope.$watch('buttonEnabled', function(value) {
+                    $('#iButton').prop("disabled", !value);
+                });
+
+                $interval(function(){
+                  $scope.incrementCounter();
+                },1000);
+                // setInterval(function(){
+                //   //$scope.incrementCounter();
+                //   $scope.$apply($scope.incrementCounter());
+                // },1000);
+            });
+        </script>
+    </head>
+    <body>
+        <div class="well">
+            <div id="ng" ng-controller="SimpleCtrl">
+                <h1>Angular</h1>
+                <input type="checkbox" ng-model="buttonEnabled" value="Enable Button">Enable Button</input>
+                count :
+                {{count}}
+            </div>
+            <div id="jq">
+                <h1>JQuery</h1>
+                <input type="button" value="Increment" id="iButton">
+            </div>
+        </div>
+    </body>
+</html>

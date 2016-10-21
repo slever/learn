@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" ng-app="todosApp">
+    <head>
+        <meta charset="utf-8">
+        <title>Todos</title>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+        <script src="node_modules/jquery/dist/jquery.js"></script>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="node_modules/angular/angular.js"></script>
+        <script src="node_modules/angular-route/angular-route.js"></script>
+        <script src="node_modules/angular-resource/angular-resource.js"></script>
+
+        <script src="js/todo.app.js"></script>
+        <script src="js/todo.controller.js"></script>
+        <script src="js/todo.constant.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid" ng-controller="TodoController as ctrl">
+            <button class="btn btn-primary" ng-click="ctrl.showForm()">Add</button>
+            <table class="table">
+                <tr>
+                    <th visible="false">
+                        id
+                    </th>
+                    <th>
+                        task
+                    </th>
+                    <th>
+                        done ?
+                    </th>
+                    <th>
+                        date
+                    </th>
+                    <th>
+                        delete
+                    </th>
+                </tr>
+                <tr ng-repeat="todo in ctrl.todos">
+                    <td visible="false">
+                        {{todo.id}}
+                    </td>
+                    <td>
+                        {{todo.task}}
+                    </td>
+                    <td>
+                        {{todo.done}}
+                    </td>
+                    <td>
+                        {{todo.date | date:"dd/MM/yyyy hh:mm:ss"}}
+                    </td>
+                    <td ng-click="ctrl.delete(todo)">
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="modal fade" tabindex="-1" role="dialog" id="createDialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title">Add Todo</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="todoForm" class="simple-form" name="todoForm" ng-submit="ctrl.createTodo(todo)" >
+
+                                <label for="task">Task:<input id="task" type="text" required ng-model="todo.task"/></label>
+
+                                <label for="date">Date:<input id="date" type="date" required ng-model="todo.date"/></label>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" ng-disabled="todoForm.$invalid">Create</button>
+                                </div>
+                                <pre>form = {{todoForm | json}}</pre>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

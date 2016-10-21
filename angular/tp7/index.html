@@ -1,0 +1,84 @@
+<!doctype html>
+<html ng-app="exampleApp">
+
+    <head>
+        <meta charset="utf-8">
+        <title>tp</title>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+
+        <script src="node_modules/jquery/dist/jquery.js"></script>
+        <script src="node_modules/angular/angular.js"></script>
+
+        <script>
+            var myApp = angular.module("exampleApp", []);
+
+            // 1-Factory
+            // reutilisation de code (copier/coller d'une API existante pour l'intégrer dans angular)
+            myApp.factory('logFactory', function() {
+                //factory
+                var cpt = 0;
+
+                return { //worker
+                    log: function(msg) {
+                        console.log("[LOG] (" + (cpt++) + ")" + msg);
+                    }
+                }
+            });
+
+            // 2-Service
+            // possibilité d'injecter des objects js existants dans le controller
+            var BaseLogger = function() {
+              this.cpt=0;
+              this.log=function(msg){
+                console.log(this.msgType+"("+ (this.cpt++) +")"+":"+msg);
+              }
+            };
+            var DebugLogger = function(){};
+            DebugLogger.prototype = new BaseLogger();
+            DebugLogger.prototype.msgType = "[DEBUG]";
+
+            var ErrorLogger = function(){};
+            ErrorLogger.prototype = new BaseLogger();
+            ErrorLogger.prototype.msgType = "[ERROR]";
+
+            myApp.service('debugLogger',DebugLogger);
+            myApp.service('errorLogger',ErrorLogger);
+
+            //3-Provider
+            // bonne maniere de developper des services (configurable) angular 1
+            myApp.provider('logger',function(){
+              var isEnabled=true;
+              return {
+                logEnabled:function(enabled){
+                  isEnabled = enabled;
+                },
+                $get:function(){ // methode appelée par angular pour instancier le service
+                  return {
+                    log:function(msg){
+                      if(isEnabled) {
+                        console.log('Provider '+msg);
+                      }
+                    }
+                  }
+                }
+              }
+            });
+
+            myApp.config(function(loggerProvider){
+              loggerProvider.logEnabled(false);
+            });
+
+            myApp.controller('SimpleCtrl', function(logFactory, debugLogger, errorLogger, logger) {
+                logFactory.log("hello from factory");
+                debugLogger.log("hello from service");
+                errorLogger.log("hello from service");
+                debugLogger.log("hello from service");
+                errorLogger.log("hello from service");
+                logger.log("hello from provider");
+            });
+        </script>
+    </head>
+
+    <body ng-controller="SimpleCtrl"></body>
+
+</html>

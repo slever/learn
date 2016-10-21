@@ -1,0 +1,2 @@
+# Goal
+work with promise

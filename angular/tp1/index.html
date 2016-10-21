@@ -1,0 +1,63 @@
+<!doctype html>
+<html ng-app="exampleApp">
+    <head>
+        <meta charset="utf-8">
+        <title>tp1</title>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+
+        <script src="node_modules/angular/angular.js"></script>
+
+        <script>
+            var myApp = angular.module("exampleApp", []);
+
+            myApp.value("day",new Date());
+
+            myApp.controller("dayCtrl", function($scope,days) {
+                $scope.day = days.today;
+            });
+            myApp.controller("tomorowCtrl", function($scope,days) {
+              $scope.day = days.tomorow;
+            });
+
+            myApp.directive("highLight", function($filter) {
+              var dayFilter = $filter("dayName");
+                return function(scope, element, attrs) {
+                    if (dayFilter(scope.day) == attrs["highLight"]) {
+                        element.css("color", "green");
+                    }
+                }
+            })
+
+            myApp.filter("dayName",function(){
+              var dayNames = [
+                  "dimanche",
+                  "lundi",
+                  "mardi",
+                  "mercredi",
+                  "jeudi",
+                  "vendredi",
+                  "samedi"
+              ];
+              return function(input){
+                return dayNames[input];
+              }
+            });
+
+            myApp.service("days",function(day){
+              this.today = day.getDay();
+              this.tomorow=this.today + 1 %7;
+            });
+        </script>
+    </head>
+    <body>
+        <div class="panel">
+            <div class="page-header">
+                <h3>AngularJS App</h3>
+            </div>
+            <h4 ng-controller="dayCtrl" high-light="mardi">Today is
+                {{day || "(unknown)" | dayName}}</h4>
+            <h4 ng-controller="tomorowCtrl" high-light="mardi">Tomorow is
+                {{day || "(unknown)"  | dayName}}</h4>
+        </div>
+    </body>
+</html>

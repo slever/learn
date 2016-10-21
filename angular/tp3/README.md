@@ -1,0 +1,2 @@
+# Goal
+tests with karma

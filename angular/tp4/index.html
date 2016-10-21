@@ -1,0 +1,37 @@
+<!doctype html>
+<html ng-app="exampleApp">
+    <head>
+        <meta charset="utf-8">
+        <title>tp4</title>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+
+        <script src="node_modules/angular/angular.js"></script>
+
+        <script>
+            var myApp = angular.module("exampleApp", []);
+
+            myApp.controller("Ctrl1", function($scope,$rootScope) {
+              $scope.$watch('value',function(newValue,oldValue){
+                console.log("Old="+oldValue+", New="+newValue);
+              });
+
+              $scope.propagate = function(){
+                $rootScope.$broadcast('eventPropagateValue', {theValue:$scope.value})
+              }
+            });
+            myApp.controller("Ctrl2", function($scope) {
+              $scope.$on('eventPropagateValue', function(event,obj) {
+                $scope.value = obj.theValue;
+              })
+            });
+        </script>
+    </head>
+    <body>
+        <div ng-controller="Ctrl1">
+          value: <input type="text" ng-model="value"><input type="button" value="send" ng-click="propagate()">
+        </div>
+        <div ng-controller="Ctrl2">
+          value: {{value}}
+        </div>
+    </body>
+</html>
