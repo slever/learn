@@ -53,13 +53,17 @@ browser-sync start -p "localhost:2304" -f "**/*"
       * industrialisation du build de l'application angular
 
 ## Other
-* REquireJS / ou SYstemJS)
-   * importation dynamique de dépendances JS en ANgular 1 (pas très conseillé: assez lourd)
+* REquireJS / ou SYstemJS
+   * importation dynamique de dépendances JS (en ANgular 1 pas très conseillé: assez lourd)
 * JSHint
    * test de surface du code JS
+* [Mean.io](http://mean.io/)
+   * Javascript Fullstack 
+* [Material angular](https://material.angularjs.o)
 
 # Angular 2
 * TypeScript
+    * permet de lever les erreurs a la transpilation
 
 # Documentation
 ## Closure
