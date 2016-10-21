@@ -1,2 +1,2 @@
 # Goal
-work with closures and implement services
+play with directives

@@ -1,4 +1,4 @@
-# Tooling
+# Tooling Angular 1.x
 
 ## Dev
 * browser sync
@@ -10,7 +10,7 @@ browser-sync start -s -f "**/*"
 browser-sync start -p "localhost:2304" -f "**/*"
 ```
 * [polymer](https://www.polymer-project.org/1.0/)
-   * components
+   * components by google
 * [deployd](http://deployd.com/)
    * Design, build, and scale APIs for web and mobile apps in minutes instead of days.
    ```
@@ -57,6 +57,9 @@ browser-sync start -p "localhost:2304" -f "**/*"
    * importation dynamique de dépendances JS en ANgular 1 (pas très conseillé: assez lourd)
 * JSHint
    * test de surface du code JS
+
+# Angular 2
+* TypeScript
 
 # Documentation
 ## Closure

@@ -1,0 +1,41 @@
+<!doctype html>
+<html ng-app="exampleApp">
+
+    <head>
+        <meta charset="utf-8">
+        <title>tp</title>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+
+        <script src="node_modules/jquery/dist/jquery.js"></script>
+        <script src="node_modules/angular/angular.js"></script>
+
+        <script>
+            var myApp = angular.module("exampleApp", []);
+
+            myApp.directive('myDirective',function(){
+              return {
+                restrict:'A',
+                template:'<div><h2>Hello {{local}}</h2><input type="button" name="name" ng-click="localLogger()">{{localLogger(local)}}</div>',
+                //replace:true,
+                scope:{
+                  local:"@theName",
+                  localLogger:"&logger"
+                }
+              }
+            });
+            myApp.controller('SimpleCtrl', function($scope) {
+              var vm=this;
+              vm.data = {name:"John"}
+              vm.log = function(msg){
+                console.log("LOG INjected : "+msg);
+              }
+            });
+        </script>
+    </head>
+
+    <body ng-controller="SimpleCtrl as ctrl">
+
+      <div my-directive the-name={{ctrl.data.name}} logger='ctrl.log()'></div>
+    </body>
+
+</html>
