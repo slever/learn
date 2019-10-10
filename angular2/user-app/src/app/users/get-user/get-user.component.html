@@ -1,0 +1,8 @@
+<div>
+  <label for="searchName">Name</label>
+  <input id="searchName" type="text" [class]="getFieldClass()" [value]="searchName" (input)="searchName=$event.target.value" (keyup.enter)="getUser()"/>
+  <button (click)="getUser()" >Search</button>
+</div>
+<div *ngIf="isUserFound">
+  <usr-user-details [user]="userFound"></usr-user-details>
+</div>

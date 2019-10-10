@@ -1,0 +1,6 @@
+<div *ngIf="isLogged()">
+  User:{{getUser()}}
+  <button (click)="logout()">logout</button>
+</div>
+<div *usrHasName="'papa'">Welcome DEAR PAPA</div>
+<!-- FIXME usrHasName is evaluated only one time on page load, never after-->
